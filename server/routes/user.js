@@ -1,14 +1,17 @@
 const express=require('express')
+const bcrypt = require('bcryptjs');
 const router=express.Router();
 const User=require('../models/user')
 router.post('/register',(req,res)=>{
     const {firstname,lastname,email,password}=req.body;
-    User.create({
-        firstname,lastname,email,password
-    }).then((user)=>{
-        res.status(200).json({message:'success',user})
-    }).catch(()=>{
-        res.json({error:'Something went wrong!'})
+    var user =new User({firstname,lastname,email,password});
+    user.save((err,docs)=>{
+        if(err)
+            res.json({success:false,err})
+        res.status(200).json({
+            success:true,
+            userData:docs
+        })
     })
 })
 
