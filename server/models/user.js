@@ -71,7 +71,6 @@ userSchema.methods.generateToken=function(){
     var user=this;
     var token =jwt.sign({ id: user._id},jwt_secret);
     user.token=token;
-    console.log(token);
     return new Promise((resolve,reject)=>{
         user.save(function(err,user){
             if(!err){
@@ -80,8 +79,20 @@ userSchema.methods.generateToken=function(){
             else
             return reject(err)
         });
-    })
-    
+    })  
 }
-
+userSchema.statics.findByToken=function(token){
+    var User=this;
+    console.log(token)
+    return new Promise((resolve,reject)=>{
+        jwt.verify(token, jwt_secret, function(err, decoded) {
+            User.findOne({_id:decoded.id,token},function(err,user){
+                if(user)
+                    return resolve(user)
+                else 
+                    return reject(err)
+            })
+          });
+    })
+}
 module.exports=mongoose.model('User',userSchema);
