@@ -1,6 +1,7 @@
 const mongoose=require('mongoose')
-var {isEmail} = require('validator');
-var bcrypt = require('bcryptjs');
+const {isEmail} = require('validator');
+const {data:{jwt_secret}}=require('../config/keys')
+const bcrypt = require('bcryptjs');
 const userSchema =new mongoose.Schema({
     firstname:{
         type:String,
@@ -46,8 +47,7 @@ bcrypt.genSalt(10, function(err, salt) {
         if(!err){
             user.password=hash;
             next();
-        }
-          
+        }     
         else return next(err);
     });
 });
@@ -56,4 +56,23 @@ bcrypt.genSalt(10, function(err, salt) {
         next();
     }
 })
+userSchema.methods.comparePassword=function(plainPassword,hashedPassword){
+    bcrypt.compare(plainPassword, hashedPassword, function(_,result) {
+        if(result)
+        return true;
+        else
+        return false;
+    });
+}
+userSchema.methods.generateToken=function(user){
+    var token =jwt.sign({ id: user._id},jwt_secret);
+    user.token=token;
+    user.save(function(err,user){
+        if(err)
+        return Promise(reject())
+        else
+        return Promise(resolve())
+    });
+}
+
 module.exports=mongoose.model('User',userSchema);
