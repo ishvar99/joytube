@@ -4,7 +4,7 @@ const User=require('../models/user')
 router.post('/register',(req,res)=>{
     const {firstname,lastname,email,password}=req.body;
     var user =new User({firstname,lastname,email,password});
-    user.save((err,docs)=>{
+    user.save(function(err,docs){
         console.log(docs)
         if(err)
            return res.json({success:false,err})
@@ -17,29 +17,26 @@ router.post('/register',(req,res)=>{
 router.post('/login',(req,res)=>{
     const {email,password}=req.body;
     console.log(email,password)
-    User.findOne({email}).then((user)=>{
+    User.findOne({email})
+    .then((user)=>{
         if(user){
-           if(user.comparePassword(password,user.password)){
-               console.log('Valid Email')
-               return Promise(resolve(user));
-           }
-           else{ 
-               console.log('Invalid Email')
-               return Promise(reject({loginSuccess:'false',authMessage:'Authentication Failed!'}))
-            }
+                user.comparePassword(password,user.password)
+                .then((val)=>{
+                        user.generateToken()
+                        .then((docs)=>{
+                            docs.password=undefined;
+                        return res.json({loginSuccess:true,user:docs});
+                        })
+                        .catch(()=>{
+                        return res.json({loginSuccess:false,authMessage:'Authentication Failed!'})
+                        }) 
+                })
+                .catch((err)=>{
+                    return res.json({loginSuccess:false,authMessage:'Authentication Failed!'})
+                })
         }
         else
         return res.json({loginSuccess:false,authMessage:'Authentication Failed!'})
-    }).then((user)=>{
-        user.generateToken()
-        .then(()=>{
-            return res.json({loginSuccess:true,user});
-        })
-        .catch(()=>{
-            return res.json({loginSuccess:false,authMessage:'Authentication Failed!'})
-        })
-    }).catch((error)=>{
-        return res.json(error);
     })
 })
 
