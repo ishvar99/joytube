@@ -16,6 +16,8 @@
   "scripts": {
     "start":"node server/app.js",
     "backend":"nodemon server/app.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run backend\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
