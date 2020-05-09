@@ -10,12 +10,12 @@ require('./database/db');
 const userRoutes=require('./routes/user');
 app.use(express.json());
 app.use('/api/user',userRoutes);
-// if(process.env.NODE_ENV==='production'){
+if(process.env.NODE_ENV==='production'){
     app.use(express.static(path.join(__dirname, "../client", "build")))
     app.get("*", (req, res) => {
         res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
     });
-    // }
+    }
 app.listen(PORT,()=>{
     console.log(`Server is running on Port ${PORT}`);
 })
