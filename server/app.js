@@ -9,9 +9,6 @@ const PORT=process.env.PORT||5000;
 require('./database/db');
 const userRoutes=require('./routes/user');
 app.use(express.json());
-app.get('/',(req,res)=>{
-    res.json({message:'JoyTube: A clone of YouTube'})
-})
 app.use('/api/user',userRoutes);
 if(process.env.NODE_ENV==='production'){
     app.use(express.static(path.join(__dirname, "../client", "build")))
