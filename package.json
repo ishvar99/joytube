@@ -15,7 +15,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server/app.js",
-    "heroku-postbuild": "cd ../client && npm install --only=dev && npm install && npm run build",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
     "backend":"nodemon server/app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run backend\" \"npm run client\"",
