@@ -21,6 +21,9 @@
     "dev": "concurrently \"npm run backend\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "10.9.0"
+},
   "repository": {
     "type": "git",
     "url": "youtube-clone-react"
