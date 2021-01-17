@@ -4,7 +4,6 @@ import axios from 'axios'
 import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 
 const Upload = () => {
- axios.defaults.headers.post["Content-Type"] = "multipart/form-data"
  const Privacy = [
   { value: 0, label:'Public'},
   { value: 1, label:'Private'}
@@ -17,18 +16,34 @@ const Category = [
   { value: 0, label: "Pets & Animals" },
   { value: 0, label: "Sports" },
 ]
+const [video, setVideo] = useState("");
 const [title, setTitle] = useState("");
 const [description,setDescription]=useState("");
 const [privacy, setPrivacy] = useState(Privacy[0].label);
 const [category, setCategory] = useState(Category[0].label);
+const [thumbnail, setThumbnail] = useState("");
+const [duration, setDuration]=useState("")
 const uploadFile=async (files)=>{
  console.log('upload triggered')
  let formData=new FormData();
  formData.append('file',files[0]);
  console.log(files[0])
- const response= await axios.post('/api/v1/videos/upload',formData)
+ const response= await axios.post('/api/v1/videos/upload',formData,{"Content-Type":"multipart/form-data"})
  if(response.data.success){
-  console.log(response.data);
+  var filePath=response.data.filePath;
+  var fileName=response.data.fileName
+  setVideo(response.data.filePath);
+  //Generate Thumbnail
+  const resp= await axios.post('/api/v1/videos/thumbnail',{filePath,fileName},{"Content-Type":"application/json"})
+  if(resp.data.success){
+   let {thumbnailPath,videoDuration}=resp.data;
+   console.log(thumbnailPath);
+   setThumbnail(thumbnailPath);
+   setDuration(videoDuration);
+  }
+  else{
+   alert('Failed to generate thumbnail')
+  }
  }
  else{
   alert('Failed to upload file')
@@ -49,6 +64,7 @@ const handleFormSubmit=(e)=>{
    Upload Video
   </h2>
   <Form.Group>
+  <div class='d-flex'>
   <Dropzone accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploadFile}>
   {({getRootProps, getInputProps}) => (
 
@@ -58,6 +74,11 @@ const handleFormSubmit=(e)=>{
   </div>
   )}
 </Dropzone>
+{thumbnail!=""?(
+    <Form.Group>
+      <img src={`http://localhost:5000/${thumbnail}`} alt="no"/></Form.Group>)
+     :null}
+     </div>
   </Form.Group>
           <Form.Group style={{padding:"20px 0"}}>
             <Form.Label>Title</Form.Label>

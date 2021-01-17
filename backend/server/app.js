@@ -16,6 +16,7 @@ if (!process.env.NODE_ENV === "production") {
 }
 const authRoutes = require("../routes/auth")
 const videoRoutes = require("../routes/videos")
+app.use('/uploads', express.static('uploads'));
 const connectDB = require("../database/db")
 //connect to database
 connectDB()
