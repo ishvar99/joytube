@@ -4,6 +4,7 @@ const {
   data: { DEV_PORT },
 } = require("../config/keys")
 const express = require("express")
+const bodyParser=require('body-parser')
 let app = express()
 const morgan = require("morgan")
 const errorHandler = require("../middlewares/error")
@@ -14,10 +15,11 @@ if (!process.env.NODE_ENV === "production") {
   app.use(morgan("dev"))
 }
 const authRoutes = require("../routes/auth")
-
+const videoRoutes = require("../routes/videos")
 const connectDB = require("../database/db")
 //connect to database
 connectDB()
+app.use(bodyParser.urlencoded({extended:true}));
 // req.protocol will return https in production
 app.enable("trust proxy")
 // express middlewares
@@ -27,7 +29,7 @@ app.use(cookieParser())
 
 // routes middlewares
 app.use("/api/v1/auth", authRoutes)
-
+app.use("/api/v1/videos",videoRoutes)
 // custom error handler
 app.use(errorHandler)
 

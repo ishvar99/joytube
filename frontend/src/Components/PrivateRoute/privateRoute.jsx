@@ -2,11 +2,12 @@ import React from "react"
 import { Redirect, Route } from "react-router-dom"
 import parseCookie from "../../utils/parseCookie"
 const PrivateRoute = ({ component: Component, ...rest }) => {
+  console.log(parseCookie(document.cookie))
   return (
     <Route
       {...rest}
       render={(props) =>
-        !parseCookie(document.cookie) &&
+        parseCookie(document.cookie) &&
         !parseCookie(document.cookie)["token"] ? (
           <Redirect to="/login" />
         ) : (
