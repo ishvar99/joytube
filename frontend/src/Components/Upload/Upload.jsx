@@ -27,7 +27,12 @@ const uploadFile=async (files)=>{
  formData.append('file',files[0]);
  console.log(files[0])
  const response= await axios.post('/api/v1/videos/upload',formData)
- console.log(response.data);
+ if(response.data.success){
+  console.log(response.data);
+ }
+ else{
+  alert('Failed to upload file')
+ }
 }
 const handleFormSubmit=(e)=>{
  e.preventDefault();
@@ -44,11 +49,11 @@ const handleFormSubmit=(e)=>{
    Upload Video
   </h2>
   <Form.Group>
-  <Dropzone multiple={false} maxSize={800000000} onDrop={uploadFile}>
+  <Dropzone accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploadFile}>
   {({getRootProps, getInputProps}) => (
 
     <div {...getRootProps()} style={{width:"50%",height:"250px",border:"1px solid lightgray", display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-    <input {...getInputProps()} />
+    <input  {...getInputProps()} />
   <i style={{fontSize:"32px",color:'#ff0038'}} class="fas fa-plus"></i>
   </div>
   )}
