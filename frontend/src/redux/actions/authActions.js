@@ -22,6 +22,7 @@ const LOGIN_URL = "/api/v1/auth/login"
 const GET_CURRENT_USER = "/api/v1/auth/me"
 const FORGOT_PASSWORD_URL = "/api/v1/auth/forgotpassword"
 export const LoadUser = () => {
+  //cookie is automatically set in axios header from the application cookies in client
   return async (dispatch) => {
     try {
       dispatch(SetLoading())

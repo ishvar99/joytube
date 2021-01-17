@@ -1,12 +1,14 @@
 import React from "react"
-import "./Loader.css"
+import "./Loader.scss"
 const Loader = () => {
   return (
+    <div className="lds-bg">
     <div className="lds-ring">
       <div></div>
       <div></div>
       <div></div>
       <div></div>
+    </div>
     </div>
   )
 }

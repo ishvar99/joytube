@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { LogoutUser } from "../../redux/actions/authActions"
 import { useSelector, useDispatch } from "react-redux"
 import { LoadUser } from "../../redux/actions/authActions"
-import Backdrop from "../../Components/Backdrop/Backdrop"
+import Loader from "../../Components/Loader/Loader"
 import parseCookie from "../../utils/parseCookie"
 const Header = () => {
   const auth = useSelector((state) => state.auth)
@@ -19,7 +19,7 @@ const Header = () => {
   }, [])
   return (
     <>
-      {loading ? <Backdrop /> : null}
+      {loading ? <Loader/> : null}
       <div className="Header">
         <Navbar
           collapseOnSelect
@@ -29,16 +29,37 @@ const Header = () => {
           className="py-3 px-4 color-nav"
         >
           <Link to="/">
-            <Navbar.Brand>JoyTube</Navbar.Brand>
+            <Navbar.Brand >
+            <i style={{"fontSize":"22px"}} class="fab fa-youtube"></i><span style={{"fontSize":"20px","paddingLeft":"7px"}}>JoyTube</span>
+            </Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="ml-auto">
+          <Nav>
+          {
+            user?
+            (
+              <Fragment>
+          <li className="nav-item ">
+                <Link to="/" className="nav-link pl-5">
+                  Videos
+                </Link>
+              </li>
               <li className="nav-item ">
+                <Link to="/" className="nav-link">
+                  Subscriptions
+                </Link>
+              </li>
+              </Fragment>
+            ):(null)
+          }
+          </Nav>
+            <Nav className="ml-auto">
+              {/* <li className="nav-item ">
                 <Link to="/" className="nav-link">
                   Home
                 </Link>
-              </li>
+              </li> */}
               {!user ? (
                 <Fragment>
                   <li className="nav-item">

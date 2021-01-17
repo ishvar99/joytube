@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import validator from "validator"
+import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 import { ClearMessage } from "../../redux/actions/authActions"
 import { ForgotPasswordAction } from "../../redux/actions/authActions"
 const ForgotPassword = (props) => {
@@ -77,43 +78,41 @@ const ForgotPassword = (props) => {
     })
   }, [])
   return (
-    <>
-      <div className="Form">
-        <form noValidate onSubmit={handleFormSubmit}>
+    <Container style={{marginTop:'20vh'}}>
+    <Row className='justify-content-md-center w-100 m-0'>
+      <Col xs={12} md={5}>
+        <Form noValidate onSubmit={handleFormSubmit}>
+        <h3 className='text-center'>Forgot Password</h3>
           {Msg.status ? (
             <div
-              className={`${
-                Msg.color === "success" ? "success-div" : "error-div"
-              } text-${Msg.color}`}
-              style={{ textAlign: "center" }}
+              className={` w-75 mx-auto alert text-center ${Msg.color==='success'?"alert-success":"alert-danger"} alert-dismissible fade show text-${Msg.color}`}
             >
               <h6>{Msg.msg}</h6>
-              <span
-                onClick={() => setMsg({ status: false, color: "", msg: "" })}
-              >
-                x
-              </span>
+              <button type="button"  onClick={() =>
+                  setMsg({ status: false, color: "", msg: "" })} class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
             </div>
+            
           ) : null}
-
-          <h3>Forgot Password</h3>
-
-          <div className="form-group">
-            <label>Email address</label>
-            <input
+          <Form.Group>
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
               type="email"
               name="email"
               value={user ? user.email : inputvalue.email}
               onChange={handleChange}
             />
-          </div>
-
-          <button variant="primary" type="submit">
-            Send password reset email
+          </Form.Group>
+          <div class="mx-auto text-center">
+          <button className='btn w-75' style={{background:'#ff0038',color:'white',textAlign:'center'}} type="submit">
+          Send password reset email
           </button>
-        </form>
-      </div>
-    </>
+          </div>
+        </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

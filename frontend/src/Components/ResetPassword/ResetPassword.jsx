@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { ClearMessage } from "../../redux/actions/authActions"
 import { ResetPasswordAction } from "../../redux/actions/authActions"
+import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 const ResetPassword = (props) => {
   const { match } = props
   const auth = useSelector((state) => state.auth)
@@ -88,51 +89,52 @@ const ResetPassword = (props) => {
     })
   }, [])
   return (
-    <>
-      <div className="Form">
-        <form noValidate onSubmit={handleFormSubmit}>
+    <Container style={{marginTop:'20vh'}}>
+    <Row className='justify-content-md-center w-100 m-0'>
+      <Col xs={12} md={5}>
+      <Form noValidate onSubmit={handleFormSubmit}>
+      <h3 className='text-center'>Reset Password</h3>
           {Msg.status ? (
             <div
-              className={`${
-                Msg.color === "success" ? "success-div" : "error-div"
-              } text-${Msg.color}`}
-              style={{ textAlign: "center" }}
+              className={` w-75 mx-auto alert text-center ${Msg.color==='success'?"alert-success":"alert-danger"} alert-dismissible fade show text-${Msg.color}`}
             >
               <h6>{Msg.msg}</h6>
-              <span
-                onClick={() => setMsg({ status: false, color: "", msg: "" })}
-              >
-                x
-              </span>
+              <button type="button"  onClick={() =>
+                  setMsg({ status: false, color: "", msg: "" })} class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
             </div>
           ) : null}
 
-          <h3>Reset Password</h3>
+          
 
-          <div className="form-group">
-            <label>New password</label>
-            <input
+          <Form.Group>
+            <Form.Label>New password</Form.Label>
+            <Form.Control
               type="password"
               name="password"
               value={inputvalue.password}
               onChange={handleChange}
             />
-          </div>
-          <div className="form-group">
-            <label>Retype new password</label>
-            <input
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Retype new password</Form.Label>
+            <Form.Control
               type="password"
               name="password2"
               value={inputvalue.password2}
               onChange={handleChange}
             />
-          </div>
-          <button variant="primary" type="submit">
-            Reset password
+          </Form.Group>
+          <div class="mx-auto text-center">
+          <button className='btn w-50' style={{background:'#ff0038',color:'white',textAlign:'center'}} type="submit">
+          Reset Password
           </button>
-        </form>
-      </div>
-    </>
+          </div>
+        </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
