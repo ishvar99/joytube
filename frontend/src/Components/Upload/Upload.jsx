@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import {Form,Button,Row,Col,Container} from 'react-bootstrap'
-
+import Backdrop from '../Backdrop/Backdrop'
 const Upload = () => {
  const Privacy = [
   { value: 0, label:'Public'},
@@ -18,6 +18,7 @@ const Category = [
 ]
 const [video, setVideo] = useState("");
 const [title, setTitle] = useState("");
+const [uploading, setUploading] = useState(false);
 const [description,setDescription]=useState("");
 const [privacy, setPrivacy] = useState(Privacy[0].label);
 const [category, setCategory] = useState(Category[0].label);
@@ -28,6 +29,7 @@ const uploadFile=async (files)=>{
  let formData=new FormData();
  formData.append('file',files[0]);
  console.log(files[0])
+ setUploading(true);
  const response= await axios.post('/api/v1/videos/upload',formData,{"Content-Type":"multipart/form-data"})
  if(response.data.success){
   var filePath=response.data.filePath;
@@ -36,16 +38,19 @@ const uploadFile=async (files)=>{
   //Generate Thumbnail
   const resp= await axios.post('/api/v1/videos/thumbnail',{filePath,fileName},{"Content-Type":"application/json"})
   if(resp.data.success){
+    setUploading(false);
    let {thumbnailPath,videoDuration}=resp.data;
    console.log(thumbnailPath);
    setThumbnail(thumbnailPath);
    setDuration(videoDuration);
   }
   else{
+    setUploading(false);
    alert('Failed to generate thumbnail')
   }
  }
  else{
+  setUploading(false);
   alert('Failed to upload file')
  }
 }
@@ -58,17 +63,18 @@ const handleFormSubmit=(e)=>{
 }
  return (
   <>
+  {uploading?<Backdrop/>:null}
   <Container style={{marginTop:'15vh', marginBottom:'15vh',padding:"0 15vw"}}>
   <Form noValidate onSubmit={handleFormSubmit}>
   <h2 className="text-center pb-5">
    Upload Video
   </h2>
   <Form.Group>
-  <div class='d-flex'>
+  <div class='d-flex justify-content-between flex-wrap'>
   <Dropzone accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploadFile}>
   {({getRootProps, getInputProps}) => (
 
-    <div {...getRootProps()} style={{width:"50%",height:"250px",border:"1px solid lightgray", display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+    <div {...getRootProps()} style={{outline:"none", width:"260px",height:"240px",border:"1px solid lightgray", display: 'flex', alignItems: 'center', justifyContent: 'center',marginBottom:"50px"}}>
     <input  {...getInputProps()} />
   <i style={{fontSize:"32px",color:'#ff0038'}} class="fas fa-plus"></i>
   </div>
@@ -76,7 +82,7 @@ const handleFormSubmit=(e)=>{
 </Dropzone>
 {thumbnail!=""?(
     <Form.Group>
-      <img src={`http://localhost:5000/${thumbnail}`} alt="no"/></Form.Group>)
+      <img style={{height:"240px",width:"260px"}} src={`http://localhost:5000/${thumbnail}`} alt="no"/></Form.Group>)
      :null}
      </div>
   </Form.Group>
