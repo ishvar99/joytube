@@ -4,12 +4,13 @@ import { Link } from "react-router-dom"
 import { LogoutUser } from "../../redux/actions/authActions"
 import { useSelector, useDispatch } from "react-redux"
 import { LoadUser } from "../../redux/actions/authActions"
-import Loader from "../../Components/Loader/Loader"
+import BackDrop from "../../Components/Backdrop/Backdrop"
 import parseCookie from "../../utils/parseCookie"
 const Header = () => {
   const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const { loading, user, isAuthenticated } = auth
+  console.log(user)
   useEffect(() => {
     async function fetchUser() {
       await dispatch(LoadUser())
@@ -19,7 +20,7 @@ const Header = () => {
   }, [])
   return (
     <>
-      {loading ? <Loader/> : null}
+      {loading ? <BackDrop/> : null}
       <div className="Header">
         <Navbar
           collapseOnSelect
@@ -94,6 +95,26 @@ const Header = () => {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
+      
+      {user && !user.confirmed ? (
+        <div
+          style={{ textAlign: "center",marginTop:"70px"}}
+          className="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          Confirmation mail send to{" "}
+          <a href={"mailto:" + user.email}>{user.email}</a>. Please confirm your
+          account to get started.
+          <button
+            type="button"
+            className="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      ) : null}
       </div>
     </>
   )

@@ -4,27 +4,10 @@ import { useSelector } from "react-redux"
 const Home = (props) => {
   const auth = useSelector((state) => state.auth)
   const { user } = auth
+  console.log(user);
   return (
     <>
-      {user && !user.confirmed ? (
-        <div
-          style={{ textAlign: "center" }}
-          className="alert alert-warning alert-dismissible fade show"
-          role="alert"
-        >
-          Confirmation mail send to{" "}
-          <a href={"mailto:" + user.email}>{user.email}</a>. Please confirm your
-          account to get started.
-          <button
-            type="button"
-            className="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      ) : null}
+      
     </>
   )
 }
