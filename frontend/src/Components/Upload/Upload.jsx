@@ -31,6 +31,7 @@ const uploadFile=async (files)=>{
  console.log(files[0])
  setUploading(true);
  const response= await axios.post('/api/v1/videos/upload',formData,{"Content-Type":"multipart/form-data"})
+ console.log(response);
  if(response.data.success){
   var filePath=response.data.filePath;
   var fileName=response.data.fileName
