@@ -5,7 +5,7 @@ const ffmpeg=require('fluent-ffmpeg')
 // @route   POST /api/v1/videos/upload
 // @access  private
 exports.uploadVideo = asyncHandler(async (req, res, next) => {
-  console.log(req.file);
+  console.log(req.file)
  if(req.file)
 return res.json({success:true,filePath:req.file.path,fileName:req.file.filename});
 else
