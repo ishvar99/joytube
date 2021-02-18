@@ -83,7 +83,7 @@ const handleFormSubmit=(e)=>{
 </Dropzone>
 {thumbnail!=""?(
     <Form.Group>
-      <img style={{height:"240px",width:"260px"}} src={`http://localhost:5000/${thumbnail}`} alt="no"/></Form.Group>)
+      <img style={{height:"240px",width:"260px"}} src={`/${thumbnail}`} alt="no"/></Form.Group>)
      :null}
      </div>
   </Form.Group>
