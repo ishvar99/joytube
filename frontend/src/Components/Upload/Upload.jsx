@@ -27,6 +27,7 @@ const [thumbnail, setThumbnail] = useState("");
 const [duration, setDuration]=useState("")
 const [progressCounter,setProgressCounter]=useState(0);
 const uploadFile=async (files)=>{
+  setThumbnail("");
  console.log('upload triggered')
  let formData=new FormData();
  formData.append('file',files[0]);
@@ -38,9 +39,7 @@ const uploadFile=async (files)=>{
     setProgressCounter(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
   }
 }
-
- const response= await axios.post('/api/v1/videos/upload',formData,config)
- console.log(response);
+ const response= await axios.post('/api/v1/videos/upload',formData,config);
  if(response.data.success){
   var filePath=response.data.filePath;
   var fileName=response.data.fileName
@@ -89,14 +88,15 @@ const handleFormSubmit=(e)=>{
   </div>
   )}
 </Dropzone>
-{!uploading && thumbnail!=""?(
+{uploading?
+  (<Progress done={progressCounter}/>):null
+}
+{
+  thumbnail!=""?(
     <Form.Group>
       <img style={{height:"240px",width:"260px"}} src={`/${thumbnail}`} alt="Error"/></Form.Group>)
-     :
-     <>
-     <Progress done={progressCounter}/>
-     </>
-     }
+     :null
+}
      </div>
   </Form.Group>
           <Form.Group style={{padding:"20px 0"}}>
