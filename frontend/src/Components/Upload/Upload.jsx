@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone'
 import axios from 'axios'
 import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 import Backdrop from '../Backdrop/Backdrop'
+import Progress from '../ProgressBar/ProgressBar'
 const Upload = () => {
  const Privacy = [
   { value: 0, label:'Public'},
@@ -24,13 +25,21 @@ const [privacy, setPrivacy] = useState(Privacy[0].label);
 const [category, setCategory] = useState(Category[0].label);
 const [thumbnail, setThumbnail] = useState("");
 const [duration, setDuration]=useState("")
+const [progressCounter,setProgressCounter]=useState(0);
 const uploadFile=async (files)=>{
  console.log('upload triggered')
  let formData=new FormData();
  formData.append('file',files[0]);
  console.log(files[0])
  setUploading(true);
- const response= await axios.post('/api/v1/videos/upload',formData,{"Content-Type":"multipart/form-data"})
+ var config = {
+  onUploadProgress: function(progressEvent) {
+    console.log(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
+    setProgressCounter(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
+  }
+}
+
+ const response= await axios.post('/api/v1/videos/upload',formData,config)
  console.log(response);
  if(response.data.success){
   var filePath=response.data.filePath;
@@ -64,7 +73,6 @@ const handleFormSubmit=(e)=>{
 }
  return (
   <>
-  {uploading?<Backdrop/>:null}
   <Container style={{marginTop:'15vh', marginBottom:'15vh',padding:"0 15vw"}}>
   <Form noValidate onSubmit={handleFormSubmit}>
   <h2 className="text-center pb-5">
@@ -81,10 +89,14 @@ const handleFormSubmit=(e)=>{
   </div>
   )}
 </Dropzone>
-{thumbnail!=""?(
+{!uploading && thumbnail!=""?(
     <Form.Group>
-      <img style={{height:"240px",width:"260px"}} src={`/${thumbnail}`} alt="no"/></Form.Group>)
-     :null}
+      <img style={{height:"240px",width:"260px"}} src={`/${thumbnail}`} alt="Error"/></Form.Group>)
+     :
+     <>
+     <Progress done={progressCounter}/>
+     </>
+     }
      </div>
   </Form.Group>
           <Form.Group style={{padding:"20px 0"}}>
