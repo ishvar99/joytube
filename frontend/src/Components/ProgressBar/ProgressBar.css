@@ -13,8 +13,8 @@
 }
 
 .progress-done {
-  background: linear-gradient(to left, #f2709c, #ff9472);
-  box-shadow: 0 3px 3px -5px #f2709c, 0 2px 5px #f2709c;
+  background: linear-gradient(to left, #4b6cb7, #182848);
+  box-shadow: 0 3px 3px -5px #4b6cb7, 0 2px 5px #182848;
   border-radius: 20px;
   color: #fff;
   display: flex;

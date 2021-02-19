@@ -10,7 +10,7 @@ const Progress = ({done}) => {
 			width: `${done}%`
   }
 		setStyle(newStyle);
-	}, 300);
+	}, 200);
 	
 	return (
   <div>
