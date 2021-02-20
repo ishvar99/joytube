@@ -96,7 +96,7 @@ const handleFormSubmit=(e)=>{
     <p style={{textAlign:"center"}}>{progressCounter>90?"Generating Thumbnail...":"Processing Video..."}</p>
   <Progress done={progressCounter}/>
   <div style={{display: "flex","justify-content": "center","align-items": "center"}}>
-  <button onclick={cancleUpload} style={{border:"none",margin:"20px 0",width: "70px" ,padding:"3px",background:"#FF0038",color:"white"}}>Cancle</button> 
+  <button onclick={cancleUpload} style={{borderRadius:"5px", border:"none",margin:"20px 0",width: "70px" ,padding:"3px",background:"#FF0038",color:"white"}}>Cancle</button> 
   </div>
   </div>):null
 }

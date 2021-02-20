@@ -14,8 +14,8 @@ const Progress = ({done}) => {
 	
 	return (
   <div>
-		<div className="progress">
-			<div className="progress-done" style={style}>
+		<div className="progressb">
+			<div className="progressb-done" style={style}>
 				{done>=10&&`${done}%`}
 			</div>
 		</div>
