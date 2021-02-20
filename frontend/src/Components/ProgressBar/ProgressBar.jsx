@@ -14,10 +14,9 @@ const Progress = ({done}) => {
 	
 	return (
   <div>
-  <p style={{textAlign:"center"}}>{done>90?"Generating Thumbnail...":"Processing Video..."}</p>
 		<div className="progress">
 			<div className="progress-done" style={style}>
-				{done}%
+				{done>=10&&`${done}%`}
 			</div>
 		</div>
   </div>

@@ -26,6 +26,9 @@ const [category, setCategory] = useState(Category[0].label);
 const [thumbnail, setThumbnail] = useState("");
 const [duration, setDuration]=useState("")
 const [progressCounter,setProgressCounter]=useState(0);
+const cancleUpload=()=>{
+  setUploading(false);
+}
 const uploadFile=async (files)=>{
   setThumbnail("");
  console.log('upload triggered')
@@ -79,7 +82,7 @@ const handleFormSubmit=(e)=>{
   </h2>
   <Form.Group>
   <div class='d-flex justify-content-between flex-wrap'>
-  <Dropzone accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploadFile}>
+  <Dropzone accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploading?null:uploadFile}>
   {({getRootProps, getInputProps}) => (
 
     <div {...getRootProps()} style={{outline:"none", width:"260px",height:"240px",border:"1px solid lightgray", display: 'flex', alignItems: 'center', justifyContent: 'center',marginBottom:"50px"}}>
@@ -89,7 +92,13 @@ const handleFormSubmit=(e)=>{
   )}
 </Dropzone>
 {uploading?
-  (<Progress done={progressCounter}/>):null
+  (<div style={{display: "flex",flexDirection:"column" ,justifyContent: "center",alignItems: "center",width:"260px",height:"240px"}}>
+    <p style={{textAlign:"center"}}>{progressCounter>90?"Generating Thumbnail...":"Processing Video..."}</p>
+  <Progress done={progressCounter}/>
+  <div style={{display: "flex","justify-content": "center","align-items": "center"}}>
+  <button onclick={cancleUpload} style={{border:"none",margin:"20px 0",width: "70px" ,padding:"3px",background:"#FF0038",color:"white"}}>Cancle</button> 
+  </div>
+  </div>):null
 }
 {
   thumbnail!=""?(
