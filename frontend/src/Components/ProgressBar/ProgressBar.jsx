@@ -16,7 +16,7 @@ const Progress = ({done}) => {
   <div>
 		<div className="progressb">
 			<div className="progressb-done" style={style}>
-				{done>=10&&`${done}%`}
+				{done}%
 			</div>
 		</div>
   </div>

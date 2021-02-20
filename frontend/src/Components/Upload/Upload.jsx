@@ -1,6 +1,6 @@
-import React,{useState} from 'react'
+import React,{useState,useRef} from 'react'
 import Dropzone from 'react-dropzone'
-import axios from 'axios'
+import axios,{CancelToken,isCancel} from 'axios'
 import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 import Backdrop from '../Backdrop/Backdrop'
 import Progress from '../ProgressBar/ProgressBar'
@@ -26,9 +26,8 @@ const [category, setCategory] = useState(Category[0].label);
 const [thumbnail, setThumbnail] = useState("");
 const [duration, setDuration]=useState("")
 const [progressCounter,setProgressCounter]=useState(0);
-const cancleUpload=()=>{
-  setUploading(false);
-}
+const cancelFileUpload = useRef(null)
+
 const uploadFile=async (files)=>{
   setThumbnail("");
  console.log('upload triggered')
@@ -40,8 +39,10 @@ const uploadFile=async (files)=>{
   onUploadProgress: function(progressEvent) {
     console.log(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
     setProgressCounter(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
-  }
+  },
+  cancleToken:new CancelToken(cancel=>cancelFileUpload.current=cancel)
 }
+try{
  const response= await axios.post('/api/v1/videos/upload',formData,config);
  if(response.data.success){
   var filePath=response.data.filePath;
@@ -65,6 +66,14 @@ const uploadFile=async (files)=>{
   setUploading(false);
   alert('Failed to upload file')
  }
+}catch(err){
+  if(isCancel(err)){
+    alert(err.message)
+  }
+  else{
+  alert('Failed to upload file');
+  }
+}
 }
 const handleFormSubmit=(e)=>{
  e.preventDefault();
@@ -72,6 +81,12 @@ const handleFormSubmit=(e)=>{
  console.log(description)
  console.log(privacy)
  console.log(category)
+}
+const cancleUpload=()=>{
+  if(cancelFileUpload.current){
+    console.log('Hello')
+    cancelFileUpload.current('Video upload has been canceled!')
+  }
 }
  return (
   <>
@@ -82,7 +97,7 @@ const handleFormSubmit=(e)=>{
   </h2>
   <Form.Group>
   <div class='d-flex justify-content-between flex-wrap'>
-  <Dropzone accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploading?null:uploadFile}>
+  <Dropzone noClick={uploading} noDrag={uploading} accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploadFile}>
   {({getRootProps, getInputProps}) => (
 
     <div {...getRootProps()} style={{outline:"none", width:"260px",height:"240px",border:"1px solid lightgray", display: 'flex', alignItems: 'center', justifyContent: 'center',marginBottom:"50px"}}>
@@ -93,10 +108,10 @@ const handleFormSubmit=(e)=>{
 </Dropzone>
 {uploading?
   (<div style={{display: "flex",flexDirection:"column" ,justifyContent: "center",alignItems: "center",width:"260px",height:"240px"}}>
-    <p style={{textAlign:"center"}}>{progressCounter>90?"Generating Thumbnail...":"Processing Video..."}</p>
+    <p style={{textAlign:"center",fontWeight:"500",color:"darkblue"}}>{progressCounter>98?"Generating Thumbnail...":"Processing Video..."}</p>
   <Progress done={progressCounter}/>
   <div style={{display: "flex","justify-content": "center","align-items": "center"}}>
-  <button onclick={cancleUpload} style={{borderRadius:"5px", border:"none",margin:"20px 0",width: "70px" ,padding:"3px",background:"#FF0038",color:"white"}}>Cancle</button> 
+  <button onclick={cancleUpload} style={{borderRadius:"5px", border:"none",margin:"20px 0",width: "75px" ,padding:"4px",background:"#FF0038",color:"white"}}>Cancle</button> 
   </div>
   </div>):null
 }
