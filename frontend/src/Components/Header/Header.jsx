@@ -31,7 +31,7 @@ const Header = () => {
         >
           <Link to="/">
             <Navbar.Brand >
-            <i style={{"fontSize":"22px"}} class="fab fa-youtube"></i><span style={{"fontSize":"20px","paddingLeft":"7px"}}>JoyTube</span>
+            <i style={{"fontSize":"22px"}} className="fab fa-youtube"></i><span style={{"fontSize":"20px","paddingLeft":"7px"}}>JoyTube</span>
             </Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />

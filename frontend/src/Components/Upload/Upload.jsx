@@ -37,7 +37,6 @@ const uploadFile=async (files)=>{
  setUploading(true);
  var config = {
   onUploadProgress: function(progressEvent) {
-    console.log(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
     setProgressCounter(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
   },
   cancleToken:new CancelToken(cancel=>cancelFileUpload.current=cancel)
@@ -82,7 +81,8 @@ const handleFormSubmit=(e)=>{
  console.log(privacy)
  console.log(category)
 }
-const cancleUpload=()=>{
+const cancelUpload=()=>{
+  console.log("ISHAN")
   if(cancelFileUpload.current){
     console.log('Hello')
     cancelFileUpload.current('Video upload has been canceled!')
@@ -96,13 +96,13 @@ const cancleUpload=()=>{
    Upload Video
   </h2>
   <Form.Group>
-  <div class='d-flex justify-content-between flex-wrap'>
+  <div className='d-flex justify-content-between flex-wrap'>
   <Dropzone noClick={uploading} noDrag={uploading} accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploadFile}>
   {({getRootProps, getInputProps}) => (
 
     <div {...getRootProps()} style={{outline:"none", width:"260px",height:"240px",border:"1px solid lightgray", display: 'flex', alignItems: 'center', justifyContent: 'center',marginBottom:"50px"}}>
     <input  {...getInputProps()} />
-  <i style={{fontSize:"32px",color:'#ff0038'}} class="fas fa-plus"></i>
+  <i style={{fontSize:"32px",color:'#ff0038'}} className="fas fa-plus"></i>
   </div>
   )}
 </Dropzone>
@@ -111,7 +111,7 @@ const cancleUpload=()=>{
     <p style={{textAlign:"center",fontWeight:"500",color:"darkblue"}}>{progressCounter>98?"Generating Thumbnail...":"Processing Video..."}</p>
   <Progress done={progressCounter}/>
   <div style={{display: "flex","justify-content": "center","align-items": "center"}}>
-  <button onclick={cancleUpload} style={{borderRadius:"5px", border:"none",margin:"20px 0",width: "75px" ,padding:"4px",background:"#FF0038",color:"white"}}>Cancle</button> 
+  <button onclick={cancelUpload} style={{borderRadius:"5px", border:"none",margin:"20px 0",width: "75px" ,padding:"4px",background:"#FF0038",color:"white"}}>Cancle</button> 
   </div>
   </div>):null
 }
