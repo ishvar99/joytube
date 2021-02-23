@@ -1,5 +1,6 @@
 const asyncHandler = require("../middlewares/asyncHandler")
 const path =require('path')
+const Video =require('../models/video.js');
 const ffmpeg=require('fluent-ffmpeg')
 // @desc    Upload Video
 // @route   POST /api/v1/videos/upload
@@ -37,4 +38,13 @@ exports.generateThumbnail= asyncHandler(async (req, res, next) => {
     size:'320x240',
     filename:'thumbnail-%b.png'
   })
+})
+exports.submitVideo=asyncHandler(async (req,res,next)=>{
+  const video=await Video.create(req.body);
+  if(video){
+    return res.status(200).json({'success':true,'message':'Video created successfully'});
+  }
+  else{
+    return next(new ErrorResponse("Failed to create video", 400))
+  }
 })

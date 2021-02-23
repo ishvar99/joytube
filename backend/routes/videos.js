@@ -2,7 +2,8 @@ const express = require("express")
 const multer=require('multer')
 const {
   uploadVideo,
-  generateThumbnail
+  generateThumbnail,
+  submitVideo
 } = require("../controllers/videos")
 const { isLoggedin } = require("../middlewares/protect")
 const router = express.Router()
@@ -25,4 +26,5 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage,fileFilter:fileFilter});
 router.route("/upload").post(isLoggedin,upload.single('file'),uploadVideo)
 router.route("/thumbnail").post(isLoggedin,generateThumbnail)
+router.route('/create').post(isLoggedin,submitVideo)
 module.exports = router

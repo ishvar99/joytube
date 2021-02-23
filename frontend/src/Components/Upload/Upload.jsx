@@ -1,10 +1,13 @@
 import React,{useState,useRef} from 'react'
+import {useSelector} from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios,{CancelToken,isCancel} from 'axios'
 import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 import Backdrop from '../Backdrop/Backdrop'
 import Progress from '../ProgressBar/ProgressBar'
-const Upload = () => {
+
+const Upload = (props) => {
+const auth= useSelector(state => state.auth);
  const Privacy = [
   { value: 0, label:'Public'},
   { value: 1, label:'Private'}
@@ -17,23 +20,48 @@ const Category = [
   { value: 0, label: "Pets & Animals" },
   { value: 0, label: "Sports" },
 ]
+
 const [video, setVideo] = useState("");
 const [title, setTitle] = useState("");
 const [uploading, setUploading] = useState(false);
 const [description,setDescription]=useState("");
-const [privacy, setPrivacy] = useState(Privacy[0].label);
+const [privacy, setPrivacy] = useState(Privacy[0].value);
 const [category, setCategory] = useState(Category[0].label);
 const [thumbnail, setThumbnail] = useState("");
 const [duration, setDuration]=useState("")
 const [progressCounter,setProgressCounter]=useState(0);
 const cancelFileUpload = useRef(null)
-
+const submit= async (e)=>{
+  e.preventDefault();
+  const videoData={
+    writer:auth.user._id,
+    title,
+    description,
+    privacy,
+    filePath:video,
+    category,
+    duration,
+    thumbnail,
+  };
+  try{
+  const response = await axios.post('/api/v1/videos/create',videoData);
+    if(response.data.success){
+      props.history.push('/');
+    }
+    else{
+      alert('Failed to create video')
+    }
+  }catch(err){
+    alert('Failed to create video');
+  }
+}
 const uploadFile=async (files)=>{
   setThumbnail("");
  console.log('upload triggered')
  let formData=new FormData();
  formData.append('file',files[0]);
  console.log(files[0])
+
  setUploading(true);
  var config = {
   onUploadProgress: function(progressEvent) {
@@ -150,7 +178,7 @@ const cancelUpload=()=>{
     </Form.Control>
   </Form.Group>
           <div className="mx-auto text-center">
-          <button className='btn w-25' style={{background:'#ff0038',color:'white',textAlign:'center',padding:'10px 0'}} type="submit">
+          <button onClick={submit} className='btn w-25' style={{background:'#ff0038',color:'white',textAlign:'center',padding:'10px 0'}} type="submit">
             Upload
           </button>
           </div>
