@@ -1,4 +1,4 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef,useEffect} from 'react'
 import {useSelector} from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios,{CancelToken,isCancel} from 'axios'
@@ -8,6 +8,7 @@ import Progress from '../ProgressBar/ProgressBar'
 
 const Upload = (props) => {
 const auth= useSelector(state => state.auth);
+
  const Privacy = [
   { value: 0, label:'Public'},
   { value: 1, label:'Private'}
@@ -22,21 +23,21 @@ const Category = [
 ]
 
 const [video, setVideo] = useState("");
-const [title, setTitle] = useState("");
+const [input,setInput] = useState({title:"",description:""});
 const [uploading, setUploading] = useState(false);
-const [description,setDescription]=useState("");
 const [privacy, setPrivacy] = useState(Privacy[0].value);
 const [category, setCategory] = useState(Category[0].label);
 const [thumbnail, setThumbnail] = useState("");
 const [duration, setDuration]=useState("")
 const [progressCounter,setProgressCounter]=useState(0);
+const [active,setActive]=useState(false);
 const cancelFileUpload = useRef(null)
-const submit= async (e)=>{
+const handleFormSubmit= async (e)=>{
   e.preventDefault();
   const videoData={
     writer:auth.user._id,
-    title,
-    description,
+    title:input.title,
+    description:input.description,
     privacy,
     filePath:video,
     category,
@@ -55,6 +56,14 @@ const submit= async (e)=>{
     alert('Failed to create video');
   }
 }
+useEffect(() => {
+  if(input.title!=="" && input.description!=="" && thumbnail!=="" && video!==""){
+    setActive(true);
+  }
+  else{
+    setActive(false);
+  }
+}, [input,video,thumbnail]);
 const uploadFile=async (files)=>{
   setThumbnail("");
  console.log('upload triggered')
@@ -102,17 +111,12 @@ try{
   }
 }
 }
-const handleFormSubmit=(e)=>{
- e.preventDefault();
- console.log(title)
- console.log(description)
- console.log(privacy)
- console.log(category)
+const handleFieldChange=(e)=>{
+  const {name,value}=e.target;
+  setInput({...input,[name]:value});
 }
 const cancelUpload=()=>{
-  console.log("ISHAN")
   if(cancelFileUpload.current){
-    console.log('Hello')
     cancelFileUpload.current('Video upload has been canceled!')
   }
 }
@@ -157,13 +161,13 @@ const cancelUpload=()=>{
             required={true} 
               type="text"
               name="title"
-              onChange={(e)=>setTitle(e.target.value)}
+              onChange={handleFieldChange}
             />
           </Form.Group>
 
           <Form.Group style={{padding:"20px 0"}}>
             <Form.Label>Description</Form.Label>
-            <Form.Control required={true} onChange={(e)=>setDescription(e.target.value)} name="description"  type="text" as="textarea" rows={3} />
+            <Form.Control required={true} onChange={handleFieldChange} name="description"  type="text" as="textarea" rows={3} />
           </Form.Group>
           <Form.Group style={{padding:"20px 0"}}>
     <Form.Label>Privacy</Form.Label>
@@ -178,7 +182,7 @@ const cancelUpload=()=>{
     </Form.Control>
   </Form.Group>
           <div className="mx-auto text-center">
-          <button onClick={submit} className='btn w-25' style={{background:'#ff0038',color:'white',textAlign:'center',padding:'10px 0'}} type="submit">
+          <button disabled={!active} className='btn w-25' style={{background:'#ff0038',color:'white',textAlign:'center',padding:'10px 0'}} type="submit">
             Upload
           </button>
           </div>

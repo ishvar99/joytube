@@ -82,13 +82,15 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <a
-                      onClick={() => dispatch(LogoutUser())}
+                    <Link to="/"
+                      onClick={()=>dispatch(LogoutUser())
+                        
+                        }
                       style={{ cursor: "pointer" }}
                       className="nav-link"
                     >
                       Logout
-                    </a>
+                    </Link>
                   </li>
                 </Fragment>
               )}
