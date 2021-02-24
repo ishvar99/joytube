@@ -198,3 +198,39 @@ h2 {
 .remove:hover {
   text-decoration: underline !important;
 }
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 260px;
+  height: 240px;
+}
+
+.progress-container p {
+  text-align: center;
+  font-weight: 500;
+  color: darkblue;
+}
+.progress {
+  border-radius: 20px !important;
+  width: 100%;
+  font-weight: 500;
+
+  height: 25px !important;
+}
+.cancel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cancel-container button {
+  border-radius: 5px;
+  border: none;
+  margin: 20px 0;
+  width: 75px;
+  padding: 4px;
+  background: #ff0038;
+  color: white;
+}

@@ -2,10 +2,8 @@ import React,{useState,useRef,useEffect} from 'react'
 import {useSelector} from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios,{CancelToken,isCancel} from 'axios'
-import {Form,Button,Row,Col,Container} from 'react-bootstrap'
-import Backdrop from '../Backdrop/Backdrop'
-import Progress from '../ProgressBar/ProgressBar'
-
+import {Form,Container} from 'react-bootstrap'
+import {ProgressBar} from 'react-bootstrap'
 const Upload = (props) => {
 const auth= useSelector(state => state.auth);
 
@@ -29,7 +27,7 @@ const [privacy, setPrivacy] = useState(Privacy[0].value);
 const [category, setCategory] = useState(Category[0].label);
 const [thumbnail, setThumbnail] = useState("");
 const [duration, setDuration]=useState("")
-const [progressCounter,setProgressCounter]=useState(0);
+const [uploadPercentage,setUploadPercentage]=useState(0);
 const [active,setActive]=useState(false);
 const cancelFileUpload = useRef(null)
 const handleFormSubmit= async (e)=>{
@@ -74,7 +72,7 @@ const uploadFile=async (files)=>{
  setUploading(true);
  var config = {
   onUploadProgress: function(progressEvent) {
-    setProgressCounter(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
+    setUploadPercentage(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
   },
   cancleToken:new CancelToken(cancel=>cancelFileUpload.current=cancel)
 }
@@ -139,11 +137,11 @@ const cancelUpload=()=>{
   )}
 </Dropzone>
 {uploading?
-  (<div style={{display: "flex",flexDirection:"column" ,justifyContent: "center",alignItems: "center",width:"260px",height:"240px"}}>
-    <p style={{textAlign:"center",fontWeight:"500",color:"darkblue"}}>{progressCounter>98?"Generating Thumbnail...":"Processing Video..."}</p>
-  <Progress done={progressCounter}/>
-  <div style={{display: "flex","justify-content": "center","align-items": "center"}}>
-  <button onclick={cancelUpload} style={{borderRadius:"5px", border:"none",margin:"20px 0",width: "75px" ,padding:"4px",background:"#FF0038",color:"white"}}>Cancle</button> 
+  (<div className='progress-container'>
+    <p>{uploadPercentage>98?"Generating Thumbnail...":"Processing Video..."}</p>
+    <ProgressBar animated now={uploadPercentage} label={`${uploadPercentage}%`}/>
+  <div className='cancel-container'>
+  <button onclick={cancelUpload}>Cancel</button> 
   </div>
   </div>):null
 }
