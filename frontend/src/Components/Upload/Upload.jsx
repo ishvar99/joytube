@@ -78,6 +78,10 @@ const uploadFile=async (files)=>{
 }
 try{
  const response= await axios.post('/api/v1/videos/upload',formData,config);
+ setUploadPercentage(100);
+ setTimeout(()=>{
+  setUploadPercentage(0);
+ },1000)
  if(response.data.success){
   var filePath=response.data.filePath;
   var fileName=response.data.fileName
@@ -136,14 +140,14 @@ const cancelUpload=()=>{
   </div>
   )}
 </Dropzone>
-{uploading?
+{uploadPercentage>0&&
   (<div className='progress-container'>
     <p>{uploadPercentage>98?"Generating Thumbnail...":"Processing Video..."}</p>
     <ProgressBar animated now={uploadPercentage} label={`${uploadPercentage}%`}/>
   <div className='cancel-container'>
   <button onclick={cancelUpload}>Cancel</button> 
   </div>
-  </div>):null
+  </div>)
 }
 {
   thumbnail!=""?(
