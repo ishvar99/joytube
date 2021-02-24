@@ -148,7 +148,7 @@ h1 {
 }
 
 h2 {
-  font-size: 1.4rem;
+  font-size: 2rem !important;
   padding: 0.5rem 0;
 }
 
@@ -233,4 +233,45 @@ h2 {
   padding: 4px;
   background: #ff0038;
   color: white;
+}
+.video-grid {
+  margin: 120px 100px;
+}
+.video-grid h3 {
+  color: darkblue;
+}
+.video-card {
+  height: 220px;
+  margin-bottom: 20px;
+}
+.video-card span {
+  position: absolute;
+  background-color: black;
+  color: white;
+  bottom: 0;
+  right: 15px;
+  margin: 4px;
+  font-size: 13px;
+  height: 24px;
+  z-index: 100;
+  letter-spacing: 0.5px;
+  padding: 3px 4px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+.video-card img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.video-details {
+  display: flex;
+}
+.channel-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 20px;
+}
+.channel-avatar img {
+  border-radius: 20px;
 }

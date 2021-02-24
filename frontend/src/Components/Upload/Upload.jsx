@@ -29,6 +29,7 @@ const [thumbnail, setThumbnail] = useState("");
 const [duration, setDuration]=useState("")
 const [uploadPercentage,setUploadPercentage]=useState(0);
 const [active,setActive]=useState(false);
+const [showThumbnail,setShowThumbnail]=useState(false);
 const cancelFileUpload = useRef(null)
 const handleFormSubmit= async (e)=>{
   e.preventDefault();
@@ -64,11 +65,9 @@ useEffect(() => {
 }, [input,video,thumbnail]);
 const uploadFile=async (files)=>{
   setThumbnail("");
- console.log('upload triggered')
+  setShowThumbnail(false);
  let formData=new FormData();
  formData.append('file',files[0]);
- console.log(files[0])
-
  setUploading(true);
  var config = {
   onUploadProgress: function(progressEvent) {
@@ -81,7 +80,8 @@ try{
  setUploadPercentage(100);
  setTimeout(()=>{
   setUploadPercentage(0);
- },500)
+  setShowThumbnail(true);
+ },1000)
  if(response.data.success){
   var filePath=response.data.filePath;
   var fileName=response.data.fileName
@@ -91,10 +91,8 @@ try{
   if(resp.data.success){
     setUploading(false);
    let {thumbnailPath,videoDuration}=resp.data;
-   setTimeout(()=>{
     setThumbnail(thumbnailPath);
     setDuration(videoDuration);
-   },0);
   }
   else{
     setUploading(false);
@@ -103,6 +101,7 @@ try{
  }
  else{
   setUploading(false);
+  setUploadPercentage(0);
   alert('Failed to upload file')
  }
 }catch(err){
@@ -110,7 +109,8 @@ try{
     alert(err.message)
   }
   else{
-  alert('Failed to upload file');
+    setUploadPercentage(0);
+  alert('Failed to upload file')
   }
 }
 }
@@ -134,7 +134,6 @@ const cancelUpload=()=>{
   <div className='d-flex justify-content-between flex-wrap'>
   <Dropzone noClick={uploading} noDrag={uploading} accept="video/mp4" multiple={false} maxSize={800000000} onDrop={uploadFile}>
   {({getRootProps, getInputProps}) => (
-
     <div {...getRootProps()} style={{outline:"none", width:"260px",height:"240px",border:"1px solid lightgray", display: 'flex', alignItems: 'center', justifyContent: 'center',marginBottom:"50px"}}>
     <input  {...getInputProps()} />
   <i style={{fontSize:"32px",color:'#ff0038'}} className="fas fa-plus"></i>
@@ -151,7 +150,7 @@ const cancelUpload=()=>{
   </div>)
 }
 {
-  thumbnail!=""?(
+  thumbnail!="" && showThumbnail?(
     <Form.Group>
       <img style={{height:"240px",width:"260px"}} src={`/${thumbnail}`} alt="Error"/></Form.Group>)
      :null

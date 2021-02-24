@@ -26,6 +26,32 @@ const Home = (props) => {
           </button>
         </div>
       ) : null}
+      <div className='video-grid'>
+        <h3>Recommended</h3>
+        <div className="row">
+        <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
+        <img src="https://bit.ly/white-pigeon"/>
+        <span>
+          23:00
+        </span>
+        <div className='video-details'>
+          <div className='channel-avatar'>
+            <img src="https://bit.ly/black-pigeon"/>
+          </div>
+        </div>
+        </div>
+        <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
+        <img src="https://bit.ly/white-pigeon"/>
+        </div>
+        <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
+        <img src="https://bit.ly/white-pigeon"/>
+        </div>
+        <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
+        <img src="https://bit.ly/white-pigeon"/>
+        </div>
+        
+        </div>
+      </div>
     </>
   )
 }
