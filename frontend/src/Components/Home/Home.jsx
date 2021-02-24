@@ -38,6 +38,11 @@ const Home = (props) => {
           <div className='channel-avatar'>
             <img src="https://bit.ly/black-pigeon"/>
           </div>
+          <div style={{width:'100%'}} className='video-info'>
+            <p style={{fontWeight:'500',width:"95%",marginBottom:'5px',color:'#030303'}}>Jee Main Exam Review | Student Reaction | 2021</p>
+            <p style={{color:'#606060'}}>Channel Name</p> 
+            <p style={{color:'#606060'}}>7.4M views . 3 years ago</p>
+          </div>
         </div>
         </div>
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
