@@ -81,7 +81,7 @@ try{
  setUploadPercentage(100);
  setTimeout(()=>{
   setUploadPercentage(0);
- },1000)
+ },500)
  if(response.data.success){
   var filePath=response.data.filePath;
   var fileName=response.data.fileName
@@ -91,9 +91,10 @@ try{
   if(resp.data.success){
     setUploading(false);
    let {thumbnailPath,videoDuration}=resp.data;
-   console.log(thumbnailPath);
-   setThumbnail(thumbnailPath);
-   setDuration(videoDuration);
+   setTimeout(()=>{
+    setThumbnail(thumbnailPath);
+    setDuration(videoDuration);
+   },0);
   }
   else{
     setUploading(false);
@@ -140,9 +141,9 @@ const cancelUpload=()=>{
   </div>
   )}
 </Dropzone>
-{uploadPercentage>0&&
+{uploadPercentage>0 &&
   (<div className='progress-container'>
-    <p>{uploadPercentage>98?"Generating Thumbnail...":"Processing Video..."}</p>
+    <p>{uploadPercentage==100?"Generating Thumbnail...":"Processing Video..."}</p>
     <ProgressBar animated now={uploadPercentage} label={`${uploadPercentage}%`}/>
   <div className='cancel-container'>
   <button onclick={cancelUpload}>Cancel</button> 
