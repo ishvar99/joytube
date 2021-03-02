@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { LoginUser } from "../../redux/actions/authActions"
 import { ClearError } from "../../redux/actions/authActions"
 import GoogleSignIn from "../GoogleSignIn/GoogleSignIn"
+import {GoogleLogin} from 'react-google-login'
 const Login = (props) => {
   const auth = useSelector((state) => state.auth)
   const { error, isAuthenticated } = auth
@@ -28,6 +29,12 @@ const Login = (props) => {
     })
   }
 
+  const googleSuccess=(res)=>{
+    console.log(res)
+  }
+  const googleFailure=()=>{
+    console.log('Google SignIn Failed!')
+  }
   const formData = {
     email: inputvalue.email,
     password: inputvalue.password,
@@ -127,7 +134,16 @@ const Login = (props) => {
             Register
           </Link>
           <div style={{fontWeight:'500'}}>Or</div>
-          <GoogleSignIn/>
+          <GoogleLogin 
+    clientId="17398736997-lr6su6hfveu96ir3vgviuqanmb51a9t7.apps.googleusercontent.com"
+    render={props=>(
+      <GoogleSignIn clicked={props.onClick}/>
+    )}
+    onSuccess={googleSuccess}
+    onFailure={googleFailure}
+    cookiePolicy={'single_host_origin'}
+  />,
+          
         </Col>
       </Row>
       </Form>
