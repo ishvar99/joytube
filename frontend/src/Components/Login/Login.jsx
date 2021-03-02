@@ -31,12 +31,15 @@ const Login = (props) => {
 
   const googleSuccess=async (res)=>{
     console.log(res); 
-    const result = res?.profileObj;
     const tokenId =res?.tokenId;
-    dispatch(GSignIn({tokenId,result}))
+    dispatch(GSignIn({tokenId}))
   }
   const googleFailure=()=>{
-    console.log('Google SignIn Failed!')
+    seterrorMsg({
+      status: true,
+    color: "danger",
+    msg: "Something went wrong!",
+    })
   }
   const formData = {
     email: inputvalue.email,

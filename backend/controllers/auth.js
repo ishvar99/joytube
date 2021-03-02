@@ -47,8 +47,8 @@ const sendTokenResponse = (user, statusCode, res) => {
 // @access  public
 
 exports.registerUser = asyncHandler(async (req, res, next) => {
-  const { name, age, email, password } = req.body
-  const user = await User.create({ name, age, email, password })
+  const { name, email, password } = req.body
+  const user = await User.create({ name, email, password })
   jwt.sign(
     { id: user._id },
     EMAIL_SECRET,
@@ -98,14 +98,28 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
 // @access  public
 
 exports.googleSignIn = asyncHandler(async (req, res, next) => {
-  let {tokenId,result} = req.body;
+  let {tokenId} = req.body;
   console.log(tokenId);
   const ticket = await client.verifyIdToken({
           idToken: tokenId,
           audience: CLIENT_ID,  
       });
-  const payload = ticket.getPayload();
-  console.log(payload);
+  const payload = ticket?.getPayload();
+  if(payload?.email_verified){
+    const {email,name}=payload;
+    const currentUser = await User.findOne({email});
+    if(!currentUser){
+      const password=email+EMAIL_SECRET;
+      const newUser = await User.create({name,email,password,confirmed:true})
+      sendTokenResponse(newUser, 200, res)
+    }
+    else{
+      sendTokenResponse(currentUser,200,res)
+    }
+  }
+  else{
+    return next(new ErrorResponse("Unauthorized Access",401))
+  }
 })
 
 
