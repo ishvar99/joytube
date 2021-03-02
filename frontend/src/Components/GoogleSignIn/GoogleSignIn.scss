@@ -1,0 +1,30 @@
+.g_body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.g-button {
+  border: 0.1px solid #007bff;
+  background: #007bff;
+  display: flex;
+  border-radius: 5px;
+  height: 40px;
+  padding: 0;
+}
+
+.g-logo {
+  width: 42px;
+  height: 38px;
+  padding: 8px 10px;
+  border-radius: 5px 0 0 5px;
+  background: white;
+}
+
+.g-text {
+  font-size: 16px;
+  padding: 8px 10px;
+  color: white;
+  font-family: roboto;
+  text-align: center;
+}

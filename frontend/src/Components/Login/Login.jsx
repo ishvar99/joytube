@@ -4,6 +4,7 @@ import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 import { Link } from "react-router-dom"
 import { LoginUser } from "../../redux/actions/authActions"
 import { ClearError } from "../../redux/actions/authActions"
+import GoogleSignIn from "../GoogleSignIn/GoogleSignIn"
 const Login = (props) => {
   const auth = useSelector((state) => state.auth)
   const { error, isAuthenticated } = auth
@@ -116,6 +117,8 @@ const Login = (props) => {
           <button className='btn w-25' style={{background:'#ff0038',color:'white',textAlign:'center'}} type="submit">
             Login
           </button>
+          {/* <p style={{fontWeight:'500',marginBottom:'5px'}}>Or</p> */}
+    
           </div>
           <Row className='py-3'>
         <Col className='text-center'> 
@@ -123,6 +126,8 @@ const Login = (props) => {
           <Link style={{fontWeight:'500'}} to={'/register'}>
             Register
           </Link>
+          <div style={{fontWeight:'500'}}>Or</div>
+          <GoogleSignIn/>
         </Col>
       </Row>
       </Form>
