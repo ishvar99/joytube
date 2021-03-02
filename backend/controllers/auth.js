@@ -114,6 +114,10 @@ exports.googleSignIn = asyncHandler(async (req, res, next) => {
       sendTokenResponse(newUser, 200, res)
     }
     else{
+      if(!currentUser.confirmed){
+        currentUser.confirmed=true;
+        await currentUser.save()
+      }
       sendTokenResponse(currentUser,200,res)
     }
   }
