@@ -7,12 +7,14 @@ const {
   logoutUser,
   confirmUser,
   resetPassword,
+  googleSignIn
 } = require("../controllers/auth")
 const { isLoggedin } = require("../middlewares/protect")
 const router = express.Router()
 
 router.route("/register").post(registerUser)
 router.route("/login").post(loginUser)
+router.route("/googlesignin").post(googleSignIn)
 router.route("/me").get(isLoggedin, getMe)
 router.route("/forgotpassword").post(forgotPassword)
 router.route("/logout").get(isLoggedin,logoutUser)

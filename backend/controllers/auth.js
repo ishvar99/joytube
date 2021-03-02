@@ -6,6 +6,9 @@ const crypto = require("crypto")
 const sgMail = require("@sendgrid/mail")
 const _ = require("lodash")
 const { sendEmail } = require("../utils/sendEmail")
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+const client = new OAuth2Client(CLIENT_ID);
 const {
   data: {
     JWT_COOKIE_EXPIRE,
@@ -89,6 +92,22 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
   }
   sendTokenResponse(user, 200, res)
 })
+
+// @desc    Google SignIn 
+// @route   POST /api/v1/auth/googlesignin
+// @access  public
+
+exports.googleSignIn = asyncHandler(async (req, res, next) => {
+  let {tokenId,result} = req.body;
+  console.log(tokenId);
+  const ticket = await client.verifyIdToken({
+          idToken: tokenId,
+          audience: CLIENT_ID,  
+      });
+  const payload = ticket.getPayload();
+  console.log(payload);
+})
+
 
 // @desc    Get User
 // @route   GET /api/v1/auth/me

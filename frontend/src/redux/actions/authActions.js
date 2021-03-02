@@ -21,6 +21,7 @@ const REGISTER_URL = "/api/v1/auth/register"
 const LOGIN_URL = "/api/v1/auth/login"
 const GET_CURRENT_USER = "/api/v1/auth/me"
 const FORGOT_PASSWORD_URL = "/api/v1/auth/forgotpassword"
+const GOOGLE_SIGN_IN_URL="/api/v1/auth/googlesignin"
 export const LoadUser = () => {
   //cookie is automatically set in axios header from the application cookies in client
   return async (dispatch) => {
@@ -34,7 +35,26 @@ export const LoadUser = () => {
     }
   }
 }
+export const GSignIn=(authData)=>{
+  return async (dispatch)=>{
+    try {
+      dispatch(SetLoading())
+      const response = await axios.post(GOOGLE_SIGN_IN_URL, JSON.stringify(authData))
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: response.data,
+      })
+      dispatch(LoadUser())
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.error,
+      })
+    }
+  }
+}
 export const LoginUser = (formData) => {
+  console.log(formData);
   return async (dispatch) => {
     try {
       dispatch(SetLoading())

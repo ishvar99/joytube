@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 import { Link } from "react-router-dom"
-import { LoginUser } from "../../redux/actions/authActions"
+import { LoginUser , GSignIn} from "../../redux/actions/authActions"
 import { ClearError } from "../../redux/actions/authActions"
 import GoogleSignIn from "../GoogleSignIn/GoogleSignIn"
 import {GoogleLogin} from 'react-google-login'
@@ -29,8 +29,11 @@ const Login = (props) => {
     })
   }
 
-  const googleSuccess=(res)=>{
-    console.log(res)
+  const googleSuccess=async (res)=>{
+    console.log(res); 
+    const result = res?.profileObj;
+    const tokenId =res?.tokenId;
+    dispatch(GSignIn({tokenId,result}))
   }
   const googleFailure=()=>{
     console.log('Google SignIn Failed!')
