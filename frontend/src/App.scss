@@ -235,14 +235,16 @@ h2 {
   color: white;
 }
 .video-grid {
-  margin: 120px 100px;
+  margin: 120px 10%;
 }
+
 .video-grid h3 {
   color: darkblue;
 }
 .video-card {
   height: 250px;
-  margin-bottom: 20px;
+
+  margin-bottom: 75px;
 }
 .video-card span {
   position: absolute;
@@ -259,7 +261,7 @@ h2 {
   border-radius: 2px;
   font-weight: 500;
 }
-.video-card img {
+.video-thumbnail {
   position: relative;
   width: 100%;
   height: 70%;
@@ -270,7 +272,7 @@ h2 {
 }
 .channel-avatar {
   width: 50px;
-  height: 60px;
+  height: 50px;
   border-radius: 50%;
   margin-right: 15px;
 }

@@ -30,13 +30,13 @@ const Home = (props) => {
         <h3>Recommended</h3>
         <div className="row">
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
-        <img src="https://bit.ly/white-pigeon"/>
+        <img className='video-thumbnail' src="https://bit.ly/white-pigeon"/>
         <span>
           23:00
         </span>
         <div className='video-details'>
           <div className='channel-avatar'>
-            <img src="https://bit.ly/black-pigeon"/>
+            <img  className='video-thumbnail' src="https://bit.ly/black-pigeon"/>
           </div>
           <div style={{width:'100%'}} className='video-info'>
             <p style={{fontWeight:'500',width:"95%",marginBottom:'5px',color:'#030303'}}>Jee Main Exam Review | Student Reaction | 2021</p>
@@ -46,13 +46,13 @@ const Home = (props) => {
         </div>
         </div>
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
-        <img src="https://bit.ly/white-pigeon"/>
+        <img  className='video-thumbnail' src="https://bit.ly/white-pigeon"/>
         </div>
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
-        <img src="https://bit.ly/white-pigeon"/>
+        <img  className='video-thumbnail'src="https://bit.ly/white-pigeon"/>
         </div>
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 video-card">
-        <img src="https://bit.ly/white-pigeon"/>
+        <img  className='video-thumbnail' src="https://bit.ly/white-pigeon"/>
         </div>
         
         </div>
