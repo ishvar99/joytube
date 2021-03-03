@@ -237,7 +237,11 @@ h2 {
 .video-grid {
   margin: 120px 10%;
 }
-
+@media (max-width: 600px) {
+  .video-grid {
+    margin: 120px 15%;
+  }
+}
 .video-grid h3 {
   color: darkblue;
 }
@@ -269,15 +273,23 @@ h2 {
 }
 .video-details {
   display: flex;
+  margin-bottom: 75px;
 }
 .channel-avatar {
-  width: 50px;
-  height: 50px;
   border-radius: 50%;
   margin-right: 15px;
 }
 .channel-avatar img {
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
+}
+.video-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
 }
 .video-info p {
   margin: 0;
