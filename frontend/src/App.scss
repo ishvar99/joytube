@@ -285,6 +285,8 @@ h2 {
   border-radius: 50%;
 }
 .video-title {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

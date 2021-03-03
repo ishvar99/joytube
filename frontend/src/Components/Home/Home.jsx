@@ -39,7 +39,7 @@ const Home = (props) => {
             <img  className='video-thumbnail' src="https://bit.ly/black-pigeon"/>
           </div>
           <div style={{width:'100%'}} className='video-info'>
-            <p className='video-title' style={{fontWeight:'500',width:"95%",marginBottom:'5px',color:'#030303'}}>Jee Main Exam Reviewfsdlkfjofjwkljfq3ioujsdklfjklasdj fkladfjasklf jasdfklasd dfjkasdl fjasdlk fjaslkf jasklf jasfklas jfkla jfklad fa | Student Reaction | 2021</p>
+            <p className='video-title' style={{fontWeight:'500',width:"95%",marginBottom:'5px',color:'#030303'}}>Jee Main Exam Reviewfsdlkfjofjwkljf q3i oujsdklfjk lasdj fkladf jasklf jasdfklasd dfjkasdl fjasdlk fjaslkf jasklf jasfklas jfkla jfklad fa | Student Reaction | 2021</p>
             <p style={{color:'#606060'}}>Channel Name</p> 
             <p style={{color:'#606060'}}>7.4M views . 3 years ago</p>
           </div>
