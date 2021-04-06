@@ -7,9 +7,9 @@ const {
 } = require("../controllers/videos")
 const { isLoggedin } = require("../middlewares/protect")
 const router = express.Router()
-var storage = multer.diskStorage({
+var storage = multer.memoryStorage({
  destination: function (req, file, cb) {
-   cb(null, 'uploads/videos/')
+   cb(null, '')
  },
  filename: function (req, file, cb) {
    cb(null, `${Date.now()}_${file.originalname}`)
