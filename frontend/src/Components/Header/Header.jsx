@@ -9,7 +9,7 @@ import parseCookie from "../../utils/parseCookie"
 const Header = () => {
   const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-  const { loading, user, isAuthenticated } = auth
+  const { loading, user} = auth
   console.log(user)
   useEffect(() => {
     async function fetchUser() {

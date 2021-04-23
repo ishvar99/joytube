@@ -95,7 +95,7 @@ const Login = (props) => {
             >
               <h6>{errorMsg.msg}</h6>
               <button type="button"  onClick={() =>
-                  seterrorMsg({ status: false, color: "", msg: "" })} class="close" data-dismiss="alert" aria-label="Close">
+                  seterrorMsg({ status: false, color: "", msg: "" })} className="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
             </div>

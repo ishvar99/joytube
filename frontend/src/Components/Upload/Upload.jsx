@@ -76,7 +76,8 @@ const uploadFile=async (files)=>{
   cancleToken:new CancelToken(cancel=>cancelFileUpload.current=cancel)
 }
 try{
- const response= await axios.post('/api/v1/videos/upload',formData,config);
+ const response= await axios.post('/api/v1/videos/upload',formData);
+ console.log('done',response);
  setUploadPercentage(100);
  setTimeout(()=>{
   setUploadPercentage(0);
@@ -105,12 +106,15 @@ try{
   alert('Failed to upload file')
  }
 }catch(err){
+  console.log("your code sucks",err);
   if(isCancel(err)){
     alert(err.message)
+    setUploading(false);
   }
   else{
     setUploadPercentage(0);
   alert('Failed to upload file')
+    setUploading(false)
   }
 }
 }
@@ -145,7 +149,7 @@ const cancelUpload=()=>{
     <p>{uploadPercentage==100?"Generating Thumbnail...":"Processing Video..."}</p>
     <ProgressBar animated now={uploadPercentage} label={`${uploadPercentage}%`}/>
   <div className='cancel-container'>
-  <button onclick={cancelUpload}>Cancel</button> 
+  <button onClick={cancelUpload}>Cancel</button> 
   </div>
   </div>)
 }

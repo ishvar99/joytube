@@ -89,7 +89,7 @@ const ForgotPassword = (props) => {
             >
               <h6>{Msg.msg}</h6>
               <button type="button"  onClick={() =>
-                  setMsg({ status: false, color: "", msg: "" })} class="close" data-dismiss="alert" aria-label="Close">
+                  setMsg({ status: false, color: "", msg: "" })} className="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
             </div>
@@ -104,7 +104,7 @@ const ForgotPassword = (props) => {
               onChange={handleChange}
             />
           </Form.Group>
-          <div class="mx-auto text-center">
+          <div className="mx-auto text-center">
           <button className='btn w-75' style={{background:'#ff0038',color:'white',textAlign:'center'}} type="submit">
           Send password reset email
           </button>

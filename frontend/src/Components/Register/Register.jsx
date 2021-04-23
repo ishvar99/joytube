@@ -115,7 +115,7 @@ const Register = (props) => {
             >
               <h6>{errorMsg.msg}</h6>
               <button type="button"  onClick={() =>
-                  seterrorMsg({ status: false, color: "", msg: "" })} class="close" data-dismiss="alert" aria-label="Close">
+                  seterrorMsg({ status: false, color: "", msg: "" })} className="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
             </div>
@@ -158,7 +158,7 @@ const Register = (props) => {
               onChange={handleChange}
             />
           </Form.Group>
-          <div class="mx-auto text-center">
+          <div className="mx-auto text-center">
           <button className='btn w-25' style={{background:'#ff0038',color:'white',textAlign:'center'}} type="submit">
             Register
           </button>

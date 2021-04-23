@@ -19,22 +19,18 @@ exports.uploadVideo = asyncHandler(async (req, res, next) => {
   let extension = req.file.mimetype.split('/')[1];
   const params={
     Bucket: process.env.BUCKET_NAME,
-    Key: `${uuidv4()}.${extension}`,
+    Key: `videos/${uuidv4()}.${extension}`,
     Body: req.file.buffer
   }
   s3.upload(params, (err,data)=>{
     if(err){
       console.log(err);
+      return res.json({success:false});
     }
     else {
-      console.log(data);
+      return res.json({success:true,filePath:data.Location,fileName:data.Key});
     }
   })
-  console.log(req.file)
-//  if(req.file)
-// return res.json({success:true,filePath:req.file.path,fileName:req.file.filename});
-// else
-// return res.json({success:false});
 })
 
 exports.generateThumbnail= asyncHandler(async (req, res, next) => {
