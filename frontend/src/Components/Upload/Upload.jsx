@@ -71,6 +71,7 @@ const uploadFile=async (files)=>{
  setUploading(true);
  var config = {
   onUploadProgress: function(progressEvent) {
+    console.log(progressEvent)
     console.log(Math.round( (progressEvent.loaded * 100) / progressEvent.total ))
     setUploadPercentage(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
   },
@@ -146,7 +147,7 @@ const cancelUpload=()=>{
 </Dropzone>
 {uploadPercentage>0 &&
   (<div className='progress-container'>
-    <p>{uploadPercentage===100?"Generating Thumbnail...":"Processing Video..."}</p>
+    <p>{"Processing Video..."}</p>
     <ProgressBar animated now={uploadPercentage} label={`${uploadPercentage}%`}/>
   <div className='cancel-container'>
   <button onClick={cancelUpload}>Cancel</button> 

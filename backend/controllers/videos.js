@@ -13,7 +13,7 @@ exports.uploadVideo = asyncHandler(async (req, res, next) => {
 })
 
 exports.generateThumbnail= asyncHandler(async (req, res, next) => {
- let {filePath,fileName}=req.body;
+ let {filePath}=req.body;
  let thumbnailPath="";
  let videoDuration="";
  ffmpeg.ffprobe(filePath,(err,metadata)=>{
