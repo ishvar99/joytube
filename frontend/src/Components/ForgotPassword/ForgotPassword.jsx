@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import validator from "validator"
-import {Form,Button,Row,Col,Container} from 'react-bootstrap'
+import {Form,Row,Col,Container} from 'react-bootstrap'
 import { ClearMessage } from "../../redux/actions/authActions"
 import { ForgotPasswordAction } from "../../redux/actions/authActions"
 const ForgotPassword = (props) => {

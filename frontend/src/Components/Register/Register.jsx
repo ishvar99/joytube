@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import validator from "validator"
 import { useSelector, useDispatch } from "react-redux"
 import { RegisterUser } from "../../redux/actions/authActions"
-import {Form,Button,Row,Col,Container} from 'react-bootstrap'
+import {Form,Row,Col,Container} from 'react-bootstrap'
 import { Link } from "react-router-dom"
 import { ClearError } from "../../redux/actions/authActions"
 const Register = (props) => {

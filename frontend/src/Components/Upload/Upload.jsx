@@ -1,7 +1,7 @@
 import React,{useState,useRef,useEffect} from 'react'
 import {useSelector} from 'react-redux'
 import Dropzone from 'react-dropzone'
-import axios,{CancelToken,isCancel} from 'axios'
+import axios,{isCancel,CancelToken} from 'axios'
 import {Form,Container} from 'react-bootstrap'
 import {ProgressBar} from 'react-bootstrap'
 const Upload = (props) => {
@@ -71,13 +71,13 @@ const uploadFile=async (files)=>{
  setUploading(true);
  var config = {
   onUploadProgress: function(progressEvent) {
+    console.log(Math.round( (progressEvent.loaded * 100) / progressEvent.total ))
     setUploadPercentage(Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
   },
   cancleToken:new CancelToken(cancel=>cancelFileUpload.current=cancel)
 }
 try{
- const response= await axios.post('/api/v1/videos/upload',formData);
- console.log('done',response);
+ const response= await axios.post('/api/v1/videos/upload',formData,config);
  setUploadPercentage(100);
  setTimeout(()=>{
   setUploadPercentage(0);
@@ -146,7 +146,7 @@ const cancelUpload=()=>{
 </Dropzone>
 {uploadPercentage>0 &&
   (<div className='progress-container'>
-    <p>{uploadPercentage==100?"Generating Thumbnail...":"Processing Video..."}</p>
+    <p>{uploadPercentage===100?"Generating Thumbnail...":"Processing Video..."}</p>
     <ProgressBar animated now={uploadPercentage} label={`${uploadPercentage}%`}/>
   <div className='cancel-container'>
   <button onClick={cancelUpload}>Cancel</button> 
@@ -154,7 +154,7 @@ const cancelUpload=()=>{
   </div>)
 }
 {
-  thumbnail!="" && showThumbnail?(
+  thumbnail!=="" && showThumbnail?(
     <Form.Group>
       <img style={{height:"240px",width:"260px"}} src={`/${thumbnail}`} alt="Error"/></Form.Group>)
      :null

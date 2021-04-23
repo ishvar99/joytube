@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { ClearMessage } from "../../redux/actions/authActions"
 import { ResetPasswordAction } from "../../redux/actions/authActions"
-import {Form,Button,Row,Col,Container} from 'react-bootstrap'
+import {Form,Row,Col,Container} from 'react-bootstrap'
 const ResetPassword = (props) => {
   const { match } = props
   const auth = useSelector((state) => state.auth)

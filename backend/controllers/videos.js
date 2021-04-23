@@ -2,35 +2,14 @@ const asyncHandler = require("../middlewares/asyncHandler")
 const path =require('path')
 const Video =require('../models/video.js');
 const ffmpeg=require('fluent-ffmpeg')
-const AWS = require('aws-sdk')
-const { v4: uuidv4 } = require('uuid');
-const creds = new AWS.Credentials({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, sessionToken: process.env.AWS_SESSION_TOKEN
-});
-const s3 =new AWS.S3({
-  credentials:creds
-})
+
 // @desc    Upload Video
 // @route   POST /api/v1/videos/upload
 // @access  private
 exports.uploadVideo = asyncHandler(async (req, res, next) => {
-  console.log(req.file);
-  let uploadfile= req.file.originalname;
-  let extension = req.file.mimetype.split('/')[1];
-  const params={
-    Bucket: process.env.BUCKET_NAME,
-    Key: `videos/${uuidv4()}.${extension}`,
-    Body: req.file.buffer
-  }
-  s3.upload(params, (err,data)=>{
-    if(err){
-      console.log(err);
-      return res.json({success:false});
-    }
-    else {
-      return res.json({success:true,filePath:data.Location,fileName:data.Key});
-    }
-  })
+  if(!req.file)
+  return res.json({success:false});
+  return res.json({success:true,filePath:req.file.Location,fileName:req.file.Key});
 })
 
 exports.generateThumbnail= asyncHandler(async (req, res, next) => {
@@ -52,7 +31,6 @@ exports.generateThumbnail= asyncHandler(async (req, res, next) => {
     res.json({success:true,thumbnailPath,videoDuration})
   })
   .screenshots({
-    // Will take screens at 20%, 40%, 60% and 80% of the video
     count: 1,
     folder: 'uploads/thumbnails/',
     size:'320x240',

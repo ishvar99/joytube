@@ -10,14 +10,14 @@ const Header = () => {
   const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const { loading, user} = auth
-  console.log(user)
+  // console.log(user)
   useEffect(() => {
     async function fetchUser() {
       await dispatch(LoadUser())
     }
     let cookieObject = parseCookie(document.cookie)
     if (cookieObject && cookieObject["token"]) fetchUser()
-  }, [])
+  }, [dispatch])
   return (
     <>
       {loading ? <BackDrop/> : null}
